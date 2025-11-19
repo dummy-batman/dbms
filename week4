@@ -1,0 +1,29 @@
+week 4
+
+ANY
+---
+ select sname from sailors where rating > ANY (select rating from sailors where upper(sname)='HORATIO');
+_____________________________________________________________________________________________________________
+ALL
+---
+select s_id,sname,rating from sailors where rating>= all(select rating from sailors);
+________________________________________________________________________________________________________________
+IN
+---
+SELECT SName FROM Sailors WHERE S_ID IN (SELECT S_ID FROM Reserves WHERE B_ID IN (SELECT B_ID FROM Boats WHERE Color = 'Red')) AND S_ID IN (SELECT S_ID FROM Reserves WHERE B_ID IN (SELECT B_ID FROM Boats WHERE Color = 'Green'));
+____________________________________________________________________________________________________________________________________________________
+EXISTS
+------
+SELECT SName FROM Sailors S WHERE EXISTS (SELECT * FROM Reserves R WHERE R.S_ID = S.S_ID AND R.B_ID = 103);
+_____________________________________________________________________________________________________________
+not exists
+SELECT SName FROM Sailors S WHERE NOT EXISTS (SELECT B_ID FROM Boats B WHERE NOT EXISTS (SELECT * FROM Reserves R WHERE R.S_ID = S.S_ID AND R.B_ID = B.B_ID));
+_____________________________________________________________
+union
+SELECT SName FROM Sailors WHERE S_ID IN (SELECT S_ID FROM Reserves R JOIN Boats B ON R.B_ID = B.B_ID WHERE B.Color = 'Red' UNION SELECT S_ID FROM Reserves R JOIN Boats B ON R.B_ID = B.B_ID WHERE B.Color = 'Green');
+================================
+intersect
+SELECT SName FROM Sailors WHERE S_ID IN (SELECT S_ID FROM Reserves R JOIN Boats B ON R.B_ID = B.B_ID WHERE B.Color = 'Red' INTERSECT SELECT S_ID FROM Reserves R JOIN Boats B ON R.B_ID = B.B_ID WHERE B.Color = 'Green');
+======================
+union all
+SELECT S.SName FROM Sailors S JOIN Reserves R ON S.S_ID = R.S_ID JOIN Boats B ON R.B_ID = B.B_ID WHERE B.Color = 'Red' UNION ALL SELECT S.SName FROM Sailors S JOIN Reserves R ON S.S_ID = R.S_ID JOIN Boats B ON R.B_ID = B.B_ID WHERE B.Color = 'Green';
