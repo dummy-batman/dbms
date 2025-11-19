@@ -1,0 +1,21 @@
+avg of age
+select avg(age) from sailors where rating=10;
+___________________________________________
+name and age of oldest sailor
+SELECT SName, Age FROM Sailors WHERE Age = (SELECT MAX(Age) FROM Sailors);
+-----------------------------------------------------------------------------
+disticnt name
+SELECT COUNT(DISTINCT SName) FROM Sailors;
+------------------------------------------
+youngest sailor from each rating level
+select min(age) from sailors group by rating;
+_______________________________________________
+group by rating and count=2 or more
+select avg(age) from sailors group by rating having count(s_id) >1;
+----------------------------------------------------------
+view
+create view highratedsailors as select sname,age from sailors where rating>8;
+desc highratedsailors;
+--------------
+drop view highratedsailors;
+------------------------------
