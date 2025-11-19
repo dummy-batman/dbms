@@ -1,0 +1,45 @@
+week 5
+nested--------------------- in
+SELECT SName
+FROM Sailors
+WHERE S_ID IN (
+    -- Subquery 2: Find S_IDs that reserved any of the B_IDs from Subquery 1
+    SELECT S_ID
+    FROM Reserves
+    WHERE B_ID IN (
+        -- Subquery 1: Find B_IDs of red boats
+        SELECT B_ID
+        FROM Boats
+        WHERE Color = 'Red'
+    )
+);
+=============================================
+correlated-exists
+SELECT SName
+FROM Sailors S
+WHERE EXISTS (
+    -- The subquery is correlated because it refers to S.S_ID from the outer query.
+    SELECT *
+    FROM Reserves R
+    WHERE R.S_ID = S.S_ID  -- Correlation condition
+    AND R.B_ID = 103      -- Specific condition for Boat 103
+);
+-----------------------------------------------------------------------
+
+innerjoin-----
+SELECT S.SName, R.B_ID, R.Day FROM Sailors S INNER JOIN Reserves R ON S.S_ID = R.S_ID;
+---------------------------------------------------------------------------------------
+
+leftouter
+SELECT S.SName, R.B_ID FROM Sailors S LEFT OUTER JOIN Reserves R ON S.S_ID = R.S_ID;
+--------------------------------------------------------------------------------------
+right outer
+SELECT S.SName, R.B_ID FROM Sailors S RIGHT OUTER JOIN Reserves R ON S.S_ID = R.S_ID;
+--------------------------------------------------------------------------------------
+equi join
+SELECT S.SName, R.B_ID FROM Sailors S INNER JOIN Reserves R ON S.S_ID = R.S_ID;
+
+
+
+
+
