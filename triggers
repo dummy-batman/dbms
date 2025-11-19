@@ -1,0 +1,27 @@
+pl/sql code for creation of trigger to inseert data into a table
+
+
+create or replace trigger t
+  2  before
+  3  insert on sailors
+  4  for each row
+  5  begin
+  6  :new.sname:=upper(:new.sname);
+  7  end;
+  8  /
+
+INSERT INTO sailors VALUES(99, 'jennie', 8, 30);
+
+________________________________________________
+UPDATE TRIGGER
+ CREATE OR REPLACE TRIGGER ty
+  2  AFTER UPDATE OF sid ON sailors
+  3  FOR EACH ROW
+  4  BEGIN
+  5
+  6      IF :NEW.sid < 80 THEN
+  7     
+  8          RAISE_APPLICATION_ERROR(-20017, 'cant update: New SID must be 80 or greater.');
+  9      END IF;
+ 10  END;
+ 11  /
