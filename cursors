@@ -1,0 +1,17 @@
+Write a PL/SQL program that uses cursor operation on any data base
+
+set Serveroutput on;
+   declare
+   vsname char(10);
+   vsid number(10);
+   cursor d is
+   select sname,sid from sailors;
+   begin open d;
+   loop
+   fetch d into vsname,vsid;
+   exit when d%notfound;
+   dbms_output.put_line(vsname||' '||vsid);
+   end loop;
+   close d;
+   end;
+   /
