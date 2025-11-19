@@ -1,27 +1,40 @@
 pl/sql code for creation of trigger to inseert data into a table
 
 
-create or replace trigger t
-  2  before
-  3  insert on sailors
-  4  for each row
-  5  begin
-  6  :new.sname:=upper(:new.sname);
-  7  end;
-  8  /
+CREATE OR REPLACE TRIGGER t
+BEFORE INSERT ON Sailors
+FOR EACH ROW
+BEGIN
+    :NEW.SName := UPPER(:NEW.SName);
+END;
+/
 
 INSERT INTO sailors VALUES(99, 'jennie', 8, 30);
 
 ________________________________________________
 UPDATE TRIGGER
  CREATE OR REPLACE TRIGGER ty
-  2  AFTER UPDATE OF sid ON sailors
-  3  FOR EACH ROW
-  4  BEGIN
-  5
-  6      IF :NEW.sid < 80 THEN
-  7     
-  8          RAISE_APPLICATION_ERROR(-20017, 'cant update: New SID must be 80 or greater.');
-  9      END IF;
- 10  END;
- 11  /
+    AFTER UPDATE OF s_id ON sailors
+    FOR EACH ROW
+    BEGIN
+        IF :NEW.s_id < 80 THEN
+         RAISE_APPLICATION_ERROR(-20017, 'cant update: New SID must be 80 or greater.');
+        END IF;
+   END;
+   /
+UPDATE Sailors SET S_ID = 79 WHERE S_ID = 64;
+UPDATE Sailors SET S_ID = 90 WHERE S_ID = 64;
+
+---------------------------------------------------
+delete data from 
+CREATE OR REPLACE TRIGGER T3
+BEFORE DELETE ON Sailors 
+FOR EACH ROW
+BEGIN
+    IF :OLD.S_ID = 22 THEN 
+        RAISE_APPLICATION_ERROR(-20002, 'You cannot delete this row (S_ID 22 is protected).');
+    END IF;
+END;
+/
+DELETE FROM Sailors WHERE S_ID = 22;
+
